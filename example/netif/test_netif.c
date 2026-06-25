@@ -1,11 +1,6 @@
+#include "ferrum/lib/netif.h"
+
 #include <linux/init.h>
-#include <linux/module.h>
-
-#define DEVICE_FIRST 0 //Номер устройства
-#define DEVICE_COUNT 3 // Кол-во устр.
-#define DGROUP_NAME "ferrum_netif" //Имя группы
-
-static int major = 0; // Номер группы
 
 static int __init netif_init(void)
 {
@@ -18,18 +13,33 @@ static int __init netif_init(void)
 	
 	if ( result < 0 )
 	{
-		unregister_chrdev_region(MKDEV(major, DEVICE_FIRST), DEVICE_COUNT);
 		printk(KERN_INFO "Can not register char device region\n");
 		goto err;
 	}
+
 	printk(KERN_INFO "Char device region created: %d:%d...%d\n", major, DEVICE_FIRST, DEVICE_COUNT);
-	
+
+	cdev_init(&netif_dev, &netif_fops);
+	netif_dev.owner = THIS_MODULE;
+
+	result = cdev_add(&netif_dev, dev, DEVICE_COUNT);
+	if ( result < 0 )
+	{
+		unregister_chrdev_region(MKDEV(major, DEVICE_FIRST), DEVICE_COUNT);
+		printk(KERN_INFO "Cannot add char device\n");
+		goto err;
+	}
+
+	printk(KERN_INFO "Char device added\n");
+
+
 err:
 	return result;
 }
 
 static void __exit netif_exit(void)
 {
+	cdev_del(&netif_dev);
 	unregister_chrdev_region(MKDEV(major, DEVICE_FIRST), DEVICE_COUNT);
 	printk(KERN_INFO "Char device region %d:%d...%d destroyed\n", major, DEVICE_FIRST, DEVICE_COUNT);
 }
@@ -37,3 +47,4 @@ module_init(netif_init);
 module_exit(netif_exit);
 
 MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("netif_module");
