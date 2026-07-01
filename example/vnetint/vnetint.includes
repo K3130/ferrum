@@ -1,0 +1,6 @@
+/lib/modules/7.0.0-27-generic/build/include
+/lib/modules/7.0.0-27-generic/build/arch/x86/include
+/lib/modules/7.0.0-27-generic/build/arch/x86/include/uapi
+/lib/modules/7.0.0-27-generic/build/include/uapi
+/usr/src/linux-headers-7.0.0-27-generic
+/usr/src/linux-headers-7.0.0-27-generic/arch/x86/include/generated/
