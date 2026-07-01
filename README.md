@@ -1,7 +1,9 @@
 
 
-<img src="./logo.svg" alt="ferrum logo" width="50" align="left" style="margin-right: 15px;"/>
-**Тест**
+<img src="./logo.svg" alt="ferrum logo" width="100" align="left" style="margin-right: 15px;"/>
+    Этот проект предназначен для удобного и быстрого создания модулей ядра и драйверов под linux.
+    В нем будут модули для работы с сетью, символьные драйвера и блочные. Драйвера для работы с железом.
+    
 <br clear="both"/>
 
 
